@@ -1,25 +1,27 @@
 package spbstu.tpj;
 
-class HashMap {
-    int HEAD_NUM;
-    int MASK;
-    int[] head;
-    int[] next;
-    int[] keys;
-    int[] values;
-    int cnt = 1;
+class HashTable {
+    public int[] keys;
+    public int length;
+    private int MASK;
+    private int[] head;
+    private int[] next;
+    private int[] values;
+    private int cnt = 1;
 
 
-    HashMap(int degree, int maxSize) {
-        HEAD_NUM = 1 << degree;
+    public HashTable(int degree, int maxSize) {
+        int HEAD_NUM = 1 << degree;
         MASK = HEAD_NUM - 1;
         head = new int[HEAD_NUM];
         next = new int[maxSize + 1];
         keys = new int[maxSize + 1];
         values = new int[maxSize + 1];
+        length = maxSize;
     }
 
-    void put(int x, int y) {
+    public void put(int x, int y) {
+        if (containsKey(x)) return;
         int h = index(x);
         for (int i = head[h]; i != 0; i = next[i])
             if (keys[i] == x) {
@@ -32,7 +34,7 @@ class HashMap {
         head[h] = cnt++;
     }
 
-    int get(int x) {
+    public int get(int x) {
         int h = index(x);
         for (int i = head[h]; i != 0; i = next[i])
             if (keys[i] == x)
@@ -40,7 +42,7 @@ class HashMap {
         throw new RuntimeException("No such key!");
     }
 
-    boolean containsKey(int x) {
+    public boolean containsKey(int x) {
         int h = index(x);
         for (int i = head[h]; i != 0; i = next[i])
             if (keys[i] == x)
@@ -48,19 +50,42 @@ class HashMap {
         return false;
     }
 
-     private int index(int x) {
+    private int index(int x) {
         return Math.abs((x >> 15) ^ x) & MASK;
+    }
+
+    private int min(int x, int y) {
+        if (x > y)
+            return y;
+        else
+            return x;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == this)
+            return true;
+        if (!(other instanceof HashTable))
+            return false;
+        HashTable hs = (HashTable) other;
+        for (int i = 0; i < min(length, hs.length); i++) {
+            if (this.keys[i] == 0 && hs.keys[i] == 0) continue;
+            if (this.keys[i] != hs.keys[i]) return false;
+            if (this.get(this.keys[i]) != hs.get(this.keys[i])) return false;
+        }
+        return true;
     }
 
     @Override
     public String toString(){
-        String str = "";
+        StringBuilder str = new StringBuilder();
         int i = 0;
         for (int k : keys){
             if (k == 0) continue;
-            str += "["+i+"] "+ k + " --> " + get(k) + "\n";
+            str.append("[").append(i).append("] ").append(k).append(" —> ")
+                    .append(get(k)).append("\n");
             i++;
         }
-        return str.trim();
+        return str.toString().trim();
     }
 }
