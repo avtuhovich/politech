@@ -10,6 +10,10 @@ class HashTable {
     private int cnt = 1;
 
 
+    /**
+     * @param degree
+     * @param maxSize - максимальный размер
+     */
     public HashTable(int degree, int maxSize) {
         int HEAD_NUM = 1 << degree;
         MASK = HEAD_NUM - 1;
@@ -20,6 +24,10 @@ class HashTable {
         length = maxSize;
     }
 
+    /**
+     * @param x - ключ
+     * @param y - значение
+     */
     public void put(int x, int y) {
         if (containsKey(x)) return;
         int h = index(x);
@@ -34,6 +42,10 @@ class HashTable {
         head[h] = cnt++;
     }
 
+    /**
+     * @param x - ключ
+     * @return
+     */
     public int get(int x) {
         int h = index(x);
         for (int i = head[h]; i != 0; i = next[i])
@@ -42,6 +54,10 @@ class HashTable {
         throw new RuntimeException("No such key!");
     }
 
+    /**
+     * @param x - ключ
+     * @return
+     */
     public boolean containsKey(int x) {
         int h = index(x);
         for (int i = head[h]; i != 0; i = next[i])
