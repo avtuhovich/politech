@@ -3,21 +3,20 @@ package spbstu.tpj;
 class HashTable {
     public int[] keys;
     public int length;
-    private int MASK;
+    private int mask;
     private int[] head;
     private int[] next;
     private int[] values;
     private int cnt = 1;
 
-
     /**
-     * @param degree
+     * @param degree  - степень числа
      * @param maxSize - максимальный размер
      */
     public HashTable(int degree, int maxSize) {
-        int HEAD_NUM = 1 << degree;
-        MASK = HEAD_NUM - 1;
-        head = new int[HEAD_NUM];
+        int headNum = 1 << degree;
+        mask = headNum - 1;
+        head = new int[headNum];
         next = new int[maxSize + 1];
         keys = new int[maxSize + 1];
         values = new int[maxSize + 1];
@@ -67,7 +66,7 @@ class HashTable {
     }
 
     private int index(int x) {
-        return Math.abs((x >> 15) ^ x) & MASK;
+        return Math.abs((x >> 15) ^ x) & mask;
     }
 
     private int min(int x, int y) {
@@ -93,10 +92,10 @@ class HashTable {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder str = new StringBuilder();
         int i = 0;
-        for (int k : keys){
+        for (int k : keys) {
             if (k == 0) continue;
             str.append("[").append(i).append("] ").append(k).append(" —> ")
                     .append(get(k)).append("\n");
