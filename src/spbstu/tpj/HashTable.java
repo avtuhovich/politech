@@ -9,9 +9,11 @@ class HashTable {
     private int[] values;
     private int cnt = 1;
 
+
     /**
-     * @param degree  - степень числа
-     * @param maxSize - максимальный размер
+     * creature a HashTable
+     * @param degree - degree 
+     * @param maxSize - max size table
      */
     public HashTable(int degree, int maxSize) {
         int headNum = 1 << degree;
@@ -24,8 +26,9 @@ class HashTable {
     }
 
     /**
-     * @param x - ключ
-     * @param y - значение
+     * adding a value
+     * @param x - key
+     * @param y - values
      */
     public void put(int x, int y) {
         if (containsKey(x)) return;
@@ -42,7 +45,8 @@ class HashTable {
     }
 
     /**
-     * @param x - ключ
+     * Seacrh by key
+     * @param x - key
      * @return
      */
     public int get(int x) {
@@ -54,10 +58,11 @@ class HashTable {
     }
 
     /**
-     * @param x - ключ
+     * removal by key
+     * @param x - key
      * @return
      */
-    public boolean containsKey(int x) {
+    private boolean containsKey(int x) {
         int h = index(x);
         for (int i = head[h]; i != 0; i = next[i])
             if (keys[i] == x)
