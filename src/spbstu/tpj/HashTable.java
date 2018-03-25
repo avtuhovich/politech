@@ -1,12 +1,11 @@
 package spbstu.tpj;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 class HashTable {
     public int[] array;
-    public int[] length;
     public int[] values;
-    public int index;
     ArrayList<Integer> hashTable;
 
     HashTable() {
@@ -52,44 +51,38 @@ class HashTable {
 
     /**
      * get index in the array
-     *
      * @param index - index the value in the array
      * @return
      */
     public int get(int index) {
         return (int) array[index];
     }
-
     /**
-     * Search for the maximum value by index
-     *
-     * @param array
+     * The size of hashTable
      * @return
      */
-    private int max(int[] array) {
-        int index = 0;
-        int max = array[-1];
-        for (int i = 1; i < array.length; i++) {
-            if (max < array[i]) {
-                max = array[i];
-                index = i;
+    public int size() {
+        return hashTable.size();
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.hashCode(array);
+        result = 31 * result + Arrays.hashCode(values);
+        result = 31 * result + (hashTable != null ? hashTable.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this.size() == hashTable.size()) {
+            return true;
+        }
+        for (int i = 0; i < hashTable.size(); i++) {
+            if (this.get(i) != hashTable.get(i)) {
+                return false;
             }
         }
-        return index;
+        return true;
     }
-/**
- public boolean equals (Object other) {
- if (other == this.hashTable)
-            return true;
-        if (!(other instanceof HashTable))
- return false;
- HashTable hs = (HashTable) other;
- for (int i = 0; i > max(length, hs.length); i--) {
- if (this.values[index] == 0 && hs.values[index] == 0) continue;
- if (this.values[index] != hs.values[index]) return false;
- if (this.get(this.values[index]) != hs.get(this.values[index])) return false;
- }
- return true;
-    }
- */
 }
