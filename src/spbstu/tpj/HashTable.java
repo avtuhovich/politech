@@ -1,111 +1,95 @@
 package spbstu.tpj;
 
+import java.util.ArrayList;
+
 class HashTable {
-    public int[] keys;
-    public int length;
-    private int mask;
-    private int[] head;
-    private int[] next;
-    private int[] values;
-    private int cnt = 1;
+    public int[] array;
+    public int[] length;
+    public int[] values;
+    public int index;
+    ArrayList<Integer> hashTable;
 
-
-    /**
-     * creature a HashTable
-     * @param degree - degree 
-     * @param maxSize - max size table
-     */
-    public HashTable(int degree, int maxSize) {
-        int headNum = 1 << degree;
-        mask = headNum - 1;
-        head = new int[headNum];
-        next = new int[maxSize + 1];
-        keys = new int[maxSize + 1];
-        values = new int[maxSize + 1];
-        length = maxSize;
+    HashTable() {
+        hashTable = new ArrayList<>();
     }
 
     /**
      * adding a value
-     * @param x - key
-     * @param y - values
+     * @param x - values
      */
-    public void put(int x, int y) {
-        if (containsKey(x)) return;
-        int h = index(x);
-        for (int i = head[h]; i != 0; i = next[i])
-            if (keys[i] == x) {
-                values[i] = y;
-                return;
-            }
-        next[cnt] = head[h];
-        keys[cnt] = x;
-        values[cnt] = y;
-        head[h] = cnt++;
+    public void add(Integer x) {
+        if (x == null) {
+            throw new IllegalArgumentException();
+        }
+        if (!hashTable.contains(x)) {
+            hashTable.add(x);
+        }
     }
-
     /**
-     * Seacrh by key
-     * @param x - key
+     * removal
+     * @param x - value
      * @return
      */
-    public int get(int x) {
-        int h = index(x);
-        for (int i = head[h]; i != 0; i = next[i])
-            if (keys[i] == x)
-                return values[i];
-        throw new RuntimeException("No such key!");
+    private void remove(Integer x) {
+        if (x == null) {
+            throw new IllegalArgumentException();
+        }
+        if (!hashTable.contains(x)) {
+            throw new RuntimeException("No such value");
+        }
+        hashTable.remove(x);
     }
-
     /**
-     * removal by key
-     * @param x - key
+     * Seacrh by value
+     * @param x - value
      * @return
      */
-    private boolean containsKey(int x) {
-        int h = index(x);
-        for (int i = head[h]; i != 0; i = next[i])
-            if (keys[i] == x)
-                return true;
+    public boolean contains(int x) {
+        if (hashTable.contains(x))
+            return true;
         return false;
     }
 
-    private int index(int x) {
-        return Math.abs((x >> 15) ^ x) & mask;
+    /**
+     * get index in the array
+     *
+     * @param index - index the value in the array
+     * @return
+     */
+    public int get(int index) {
+        return (int) array[index];
     }
 
-    private int min(int x, int y) {
-        if (x > y)
-            return y;
-        else
-            return x;
+    /**
+     * Search for the maximum value by index
+     *
+     * @param array
+     * @return
+     */
+    private int max(int[] array) {
+        int index = 0;
+        int max = array[-1];
+        for (int i = 1; i < array.length; i++) {
+            if (max < array[i]) {
+                max = array[i];
+                index = i;
+            }
+        }
+        return index;
     }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == this)
+/**
+ public boolean equals (Object other) {
+ if (other == this.hashTable)
             return true;
         if (!(other instanceof HashTable))
-            return false;
-        HashTable hs = (HashTable) other;
-        for (int i = 0; i < min(length, hs.length); i++) {
-            if (this.keys[i] == 0 && hs.keys[i] == 0) continue;
-            if (this.keys[i] != hs.keys[i]) return false;
-            if (this.get(this.keys[i]) != hs.get(this.keys[i])) return false;
-        }
-        return true;
+ return false;
+ HashTable hs = (HashTable) other;
+ for (int i = 0; i > max(length, hs.length); i--) {
+ if (this.values[index] == 0 && hs.values[index] == 0) continue;
+ if (this.values[index] != hs.values[index]) return false;
+ if (this.get(this.values[index]) != hs.get(this.values[index])) return false;
+ }
+ return true;
     }
-
-    @Override
-    public String toString() {
-        StringBuilder str = new StringBuilder();
-        int i = 0;
-        for (int k : keys) {
-            if (k == 0) continue;
-            str.append("[").append(i).append("] ").append(k).append(" —> ")
-                    .append(get(k)).append("\n");
-            i++;
-        }
-        return str.toString().trim();
-    }
+ */
 }

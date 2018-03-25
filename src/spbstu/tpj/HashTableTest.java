@@ -9,17 +9,17 @@ public class HashTableTest {
     private HashTable hs;
 
     @Test
-    public void put() {
+    public void add() {
     }
 
     @Test
-    public void get() {
+    public void removal() {
     }
 
     @Test
-    public void containsKey() {
+    public void contains() {
     }
-
+/**
     @Test
     public void equals() {
         hs = new HashTable(10, 10);
@@ -28,4 +28,5 @@ public class HashTableTest {
         hs.put(1, 1);
         assertFalse(h.equals(hs));
     }
+ */
 }
