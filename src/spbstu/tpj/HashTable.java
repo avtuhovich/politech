@@ -2,11 +2,10 @@ package spbstu.tpj;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 class HashTable {
-    public int[] array;
-    public int[] values;
-    ArrayList<Integer> hashTable;
+    private ArrayList<Integer> hashTable;
 
     HashTable() {
         hashTable = new ArrayList<>();
@@ -14,6 +13,7 @@ class HashTable {
 
     /**
      * adding a value
+     *
      * @param x - values
      */
     public void add(Integer x) {
@@ -24,12 +24,14 @@ class HashTable {
             hashTable.add(x);
         }
     }
+
     /**
      * removal
+     *
      * @param x - value
      * @return
      */
-    private void remove(Integer x) {
+    public void remove(Integer x) {
         if (x == null) {
             throw new IllegalArgumentException();
         }
@@ -38,8 +40,10 @@ class HashTable {
         }
         hashTable.remove(x);
     }
+
     /**
      * Seacrh by value
+     *
      * @param x - value
      * @return
      */
@@ -51,14 +55,17 @@ class HashTable {
 
     /**
      * get index in the array
+     *
      * @param index - index the value in the array
      * @return
      */
     public int get(int index) {
-        return (int) array[index];
+        return hashTable.get(index);
     }
+
     /**
      * The size of hashTable
+     *
      * @return
      */
     public int size() {
@@ -67,22 +74,19 @@ class HashTable {
 
     @Override
     public int hashCode() {
-        int result = Arrays.hashCode(array);
-        result = 31 * result + Arrays.hashCode(values);
-        result = 31 * result + (hashTable != null ? hashTable.hashCode() : 0);
-        return result;
+        return Objects.hash(hashTable);
     }
 
     @Override
-    public boolean equals(Object other) {
-        if (this.size() == hashTable.size()) {
-            return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        HashTable ht = (HashTable) o;
+        if (this.size() == hashTable.size()) return true;
+        for (int i = 0; i < this.size(); i++) {
+            if (this.get(i) != ht.get(i)) return false;
         }
-        for (int i = 0; i < hashTable.size(); i++) {
-            if (this.get(i) != hashTable.get(i)) {
-                return false;
-            }
-        }
+
         return true;
     }
 }

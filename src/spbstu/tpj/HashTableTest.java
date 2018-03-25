@@ -10,23 +10,27 @@ public class HashTableTest {
 
     @Test
     public void add() {
+        hs = new HashTable();
+        hs.add(5);
+        assertTrue(hs.contains(5));
+        assertFalse(hs.contains(4));
+        assertEquals(5, hs.get(0));
     }
 
     @Test
-    public void removal() {
+    public void remove() {
+        hs = new HashTable();
+        hs.add(5);
+        assertTrue(hs.contains(5));
+        hs.remove(5);
+        assertFalse(hs.contains(5));
     }
 
     @Test
     public void contains() {
+        hs = new HashTable();
+        hs.contains(6);
+        assertTrue(true);
+        assertFalse(false);
     }
-/**
-    @Test
-    public void equals() {
-        hs = new HashTable(10, 10);
-        HashTable h = new HashTable(10, 10);
-        assertTrue(h.equals(hs));
-        hs.put(1, 1);
-        assertFalse(h.equals(hs));
-    }
- */
 }
