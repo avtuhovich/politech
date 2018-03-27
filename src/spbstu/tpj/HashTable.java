@@ -1,92 +1,125 @@
 package spbstu.tpj;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Objects;
 
 class HashTable {
-    private ArrayList<Integer> hashTable;
+    public int length;
+    private int mask;
+    private int[] head;
+    private int[] next;
+    private Integer[] values;
+    private int cnt = 1;
 
-    HashTable() {
-        hashTable = new ArrayList<>();
+    /**
+     * creature a HashTable
+     *
+     * @param degree  - degree
+     * @param maxSize - mix size table
+     */
+    public HashTable(int degree, int maxSize) {
+        int headNum = 1 << degree;
+        mask = headNum - 1;
+        head = new int[headNum];
+        next = new int[maxSize + 1];
+        values = new Integer[maxSize + 1];
+        length = maxSize;
     }
 
     /**
      * adding a value
      *
-     * @param x - values
+     * @param x - value
      */
     public void add(Integer x) {
         if (x == null) {
             throw new IllegalArgumentException();
         }
-        if (!hashTable.contains(x)) {
-            hashTable.add(x);
+        if (contains(x)) {
+            return;
         }
+        int h = index(x);
+        next[cnt] = head[h];
+        values[cnt] = x;
+        head[h] = cnt++;
     }
 
     /**
-     * removal
+     * Se
+     *
+     * @return
+     */
+    public int get(int x) {
+        int h = index(x);
+        for (int i = head[h]; i != 0; i = next[i]) {
+            if (values[i] == x)
+                return values[i];
+        }
+        throw new RuntimeException("No such value");
+    }
+
+    /**
+     * removal value
      *
      * @param x - value
      * @return
      */
-    public void remove(Integer x) {
+    public boolean remove(Integer x) {
+        int h = index(x);
         if (x == null) {
             throw new IllegalArgumentException();
         }
-        if (!hashTable.contains(x)) {
-            throw new RuntimeException("No such value");
+        for (int i = head[h]; i != 0; i = next[i]) {
+            if (values[i] == x) {
+                values[i] = null;
+                next[cnt] = 0;
+                head[h] = cnt--;
+                return true;
+            }
         }
-        hashTable.remove(x);
+        return false;
+    }
+
+    private int index(int x) {
+        return Math.abs((x >> 15) ^ x) & mask;
     }
 
     /**
-     * Seacrh by value
+     * Contains value in HashTable
      *
      * @param x - value
      * @return
      */
     public boolean contains(int x) {
-        if (hashTable.contains(x))
-            return true;
+        for (int i = 1; i != 0; i = next[i])
+            if (values[i] != null && values[i] == x)
+                return true;
         return false;
-    }
-
-    /**
-     * get index in the array
-     *
-     * @param index - index the value in the array
-     * @return
-     */
-    public int get(int index) {
-        return hashTable.get(index);
-    }
-
-    /**
-     * The size of hashTable
-     *
-     * @return
-     */
-    public int size() {
-        return hashTable.size();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(hashTable);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HashTable ht = (HashTable) o;
-        if (this.size() == hashTable.size()) return true;
-        for (int i = 0; i < this.size(); i++) {
-            if (this.get(i) != ht.get(i)) return false;
-        }
 
-        return true;
+        HashTable hashTable = (HashTable) o;
+
+        if (length != hashTable.length) return false;
+        if (mask != hashTable.mask) return false;
+        if (cnt != hashTable.cnt) return false;
+        if (!Arrays.equals(head, hashTable.head)) return false;
+        if (!Arrays.equals(next, hashTable.next)) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(values, hashTable.values);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = length;
+        result = 31 * result + mask;
+        result = 31 * result + Arrays.hashCode(head);
+        result = 31 * result + Arrays.hashCode(next);
+        result = 31 * result + Arrays.hashCode(values);
+        result = 31 * result + cnt;
+        return result;
     }
 }
