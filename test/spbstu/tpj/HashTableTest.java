@@ -14,7 +14,6 @@ public class HashTableTest {
         hs.add(5);
         assertTrue(hs.contains(5));
         assertFalse(hs.contains(4));
-        assertEquals(5, hs.get(5));
     }
 
     @Test
