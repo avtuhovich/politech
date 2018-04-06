@@ -62,8 +62,7 @@ public class HashTable {
      * @return
      */
     public boolean contains(int x) {
-        int h;
-        h = index(hash(x));
+        int h = index(hash(x));
         for (int i = 1; i != 0; i = next[i])
             if (values[i] == x)
                 return true;
