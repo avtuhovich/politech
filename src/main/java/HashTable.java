@@ -77,6 +77,10 @@ public class HashTable {
         return Math.abs(hash) % headNumber;
     }
 
+    private int[] getValues() {
+        return values;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,6 +89,10 @@ public class HashTable {
         HashTable hashTable = (HashTable) o;
 
         if (this.headNumber != headNumber) return false;
+        if (this.getValues() != getValues()) return false;
+        for (int i = 1; i != 0; i = next[i])
+            if (hashTable.values[i] != hashTable.values[i])
+                return false;
         return true;
     }
 }

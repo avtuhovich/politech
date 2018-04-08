@@ -1,4 +1,5 @@
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -34,4 +35,11 @@ public class HashTableTest {
         assertFalse(hs.contains(4));
     }
 
+    @Test
+    public void equals() {
+        hs = new HashTable(4, 7);
+        this.hs = new HashTable(2, 5);
+        assertTrue(true);
+        assertFalse(false);
+    }
 }
