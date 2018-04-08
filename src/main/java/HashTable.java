@@ -7,17 +7,17 @@ public class HashTable {
     private int[] next;
     private int[] values;
     private int cnt = 1;
-    private int headNumber;
+    private int headCount;
 
     /**
      * Create HashTable
      *
-     * @param headNumber - Count array pointer to int values corresponding to the same hash-value
+     * @param headCount - Count array pointer to int values corresponding to the same hash-value
      * @param maxSize    - maxSize of table
      */
-    public HashTable(int headNumber, int maxSize) {
-        this.headNumber = headNumber;
-        head = new int[headNumber];
+    public HashTable(int headCount, int maxSize) {
+        this.headCount = headCount;
+        head = new int[headCount];
         next = new int[maxSize + 1];
         values = new int[maxSize + 1];
     }
@@ -74,7 +74,7 @@ public class HashTable {
     }
 
     private int index(int hash) {
-        return Math.abs(hash) % headNumber;
+        return Math.abs(hash) % headCount;
     }
 
     private int[] getValues() {
@@ -88,7 +88,7 @@ public class HashTable {
 
         HashTable hashTable = (HashTable) o;
 
-        if (this.headNumber != headNumber) return false;
+        if (this.headCount != headCount) return false;
         if (this.getValues() != getValues()) return false;
         for (int i = 1; i != 0; i = next[i])
             if (hashTable.values[i] != hashTable.values[i])
