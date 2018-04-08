@@ -13,7 +13,7 @@ public class HashTable {
      * Create HashTable
      *
      * @param headCount - Count array pointer to int values corresponding to the same hash-value
-     * @param maxSize    - maxSize of table
+     * @param maxSize   - maxSize of table
      */
     public HashTable(int headCount, int maxSize) {
         this.headCount = headCount;
@@ -88,11 +88,8 @@ public class HashTable {
 
         HashTable hashTable = (HashTable) o;
 
-        if (this.headCount != headCount) return false;
-        if (this.getValues() != getValues()) return false;
-        for (int i = 1; i != 0; i = next[i])
-            if (hashTable.values[i] != hashTable.values[i])
-                return false;
+        if (headCount != hashTable.headCount) return false;
+        if (!values.equals(hashTable.getValues())) return false;
         return true;
     }
 }
